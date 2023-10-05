@@ -21,10 +21,13 @@ export default {
 </script>
 
 <template>
-  <div v-for="event in events" class="mb-2 flex gap-8">
-    <div class="w-1/3 border-solid border-black rounded-xl p-8">
+  <div class="flex justify-center gap-8 p-8">
+    <div
+      v-for="event in events"
+      class="mb-2 max-w-xs flex-row border-solid border-2 border-gray-400 rounded-md p-4"
+    >
       <h2 class="text-3xl">{{ event.name }}</h2>
-      <div>
+      <div class="flex justify-between">
         <p>${{ event.price }}</p>
         <p>{{ event.date }}</p>
       </div>
