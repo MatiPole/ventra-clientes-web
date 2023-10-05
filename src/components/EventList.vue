@@ -27,8 +27,10 @@ export default {
       class="mb-2 max-w-xs flex-row border-solid border-2 border-gray-400 rounded-md p-4"
     >
       <h2 class="text-3xl">{{ event.name }}</h2>
-      <div class="flex justify-between">
-        <p>${{ event.price }}</p>
+      <div class="flex justify-between my-2">
+        <p class="bg-slate-500 rounded-sm text-white px-2">
+          ${{ event.price }}
+        </p>
         <p>{{ event.date }}</p>
       </div>
       <div>
