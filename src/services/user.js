@@ -4,7 +4,7 @@ import { db } from "./firebase";
 /**
  *
  * @param {string} id
- * @returns {Promise<{id: string, email: string}>}
+ * @returns {Promise<{id: string, email: string, username: string}>}
  */
 export async function getUserProfileById(id) {
   const docRef = await getDoc(doc(db, `users/${id}`));
@@ -17,10 +17,22 @@ export async function getUserProfileById(id) {
 /**
  *
  * @param {string} id
+ * @returns {Promise<{username: string}>}
+ */
+
+export async function getUsernameById(id) {
+  const docRef = await getDoc(doc(db, `users/${id}`));
+  return docRef.data().username;
+}
+
+/**
+ *
+ * @param {string} id
  * @param {{email: string}} data
  */
-export function createUserProfile(id, { email }) {
+export function createUserProfile(id, { username, email }) {
   return setDoc(doc(db, `users/${id}`), {
+    username,
     email,
   });
 }

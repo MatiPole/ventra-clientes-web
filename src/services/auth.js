@@ -44,10 +44,10 @@ onAuthStateChanged(auth, (user) => {
  * @returns {Promise}
  */
 
-export async function register({ email, password }) {
+export async function register({ username, email, password }) {
   try {
     const userDoc = await createUserWithEmailAndPassword(auth, email, password);
-    return createUserProfile(userDoc.user.uid, { email });
+    return createUserProfile(userDoc.user.uid, { username, email });
   } catch (error) {
     throw new Error(ERROR_MAP[error.code] || error.message);
   }
@@ -83,7 +83,7 @@ export async function logout() {
 
 /**
  *
- * @param {({id: null|string, email: null|string}) => void} callback
+ * @param {({id: null|string, email: null|string, username: null|string}) => void} callback
  * @return {() => void} Función para cancelar la suscripción.
  */
 export function subscribeToAuth(callback) {

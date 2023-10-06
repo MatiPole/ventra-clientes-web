@@ -9,6 +9,7 @@ export default {
       form: {
         email: "",
         password: "",
+        username: "",
       },
     };
   },
@@ -30,6 +31,15 @@ export default {
 
   <form action="#" @submit.prevent="handleSubmit">
     <div class="mb-3">
+      <label for="username">Username</label>
+      <input
+        class="border-solid"
+        type="text"
+        id="username"
+        v-model="form.username"
+      />
+    </div>
+    <div class="mb-3">
       <label for="email">Email</label>
       <input type="email" id="email" v-model="form.email" />
     </div>
@@ -37,6 +47,6 @@ export default {
       <label for="password">Contraseña</label>
       <input type="password" id="password" v-model="form.password" />
     </div>
-    <button>Crear Cuenta</button>
+    <button type="submit">Crear Cuenta</button>
   </form>
 </template>

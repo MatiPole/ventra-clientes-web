@@ -1,18 +1,33 @@
 <script>
+import { logout, subscribeToAuth } from "./services/auth";
+import { getUsernameById } from "./services/user";
 export default {
   name: "App",
+
   data() {
     return {
-      name: "",
       user: {
         id: null,
         email: null,
       },
+      username: null,
     };
   },
   computed: {},
-  methods: {},
-  mounted() {},
+  methods: {
+    handleLogout() {
+      logout();
+      this.$router.push({
+        path: "/iniciar-sesion",
+      });
+    },
+  },
+  async mounted() {
+    subscribeToAuth((newUser) => {
+      this.user = newUser;
+    });
+    this.username = await getUsernameById(this.user.id);
+  },
 };
 </script>
 
@@ -69,56 +84,56 @@ export default {
             <li>
               <router-link
                 to="/eventos"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >Eventos</router-link
               >
             </li>
-            <li>
-              <router-link
-                to="/iniciar-sesion"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >Iniciar Sesión</router-link
-              >
-            </li>
-            <li>
-              <router-link
-                to="/registrarse"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >Registrarse</router-link
-              >
-            </li>
-            <li>
-              <router-link
-                to="/mi-cuenta"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >Mi Cuenta</router-link
-              >
-            </li>
-            <li>
-              <router-link
-                to="/dashboard"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >Panel Admin</router-link
-              >
-            </li>
+            <template v-if="user.id !== null">
+              <li>
+                <router-link
+                  :to="`/mi-cuenta/${user.id}/`"
+                  class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >Mi Cuenta</router-link
+                >
+              </li>
+              <li>
+                <router-link
+                  to="/dashboard"
+                  class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >Panel Admin</router-link
+                >
+              </li>
+              <li>
+                <form @submit.prevent="handleLogout">
+                  <button
+                    class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    type="submit"
+                  >
+                    {{ username }} (Cerrar Sesión)
+                  </button>
+                </form>
+              </li>
+            </template>
+            <template v-else>
+              <li>
+                <router-link
+                  to="/iniciar-sesion"
+                  class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >Iniciar Sesión</router-link
+                >
+              </li>
+              <li>
+                <router-link
+                  to="/registrarse"
+                  class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >Registrarse</router-link
+                >
+              </li>
+            </template>
           </ul>
         </div>
       </div>
     </nav>
-    <!--     <nav>
-      <ul class="flex justify-evenly py-4">
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/eventos">Eventos</router-link></li>
-        <li>
-          <router-link to="/iniciar-sesion">Iniciar Sesión</router-link>
-        </li>
-        <li><router-link to="/registrarse">Registrarse</router-link></li>
-
-        <li><router-link to="/mi-cuenta">Mi Cuenta</router-link></li>
-
-        <li><router-link to="/dashboard">Panel Admin</router-link></li>
-      </ul>
-    </nav> -->
   </header>
   <main class="">
     <router-view></router-view>
