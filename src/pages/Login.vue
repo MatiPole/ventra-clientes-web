@@ -39,6 +39,6 @@ export default {
       <label for="password">Contraseña</label>
       <input type="password" id="password" v-model="form.password" />
     </div>
-    <button>Ingresar</button>
+    <button type="submit">Ingresar</button>
   </form>
 </template>

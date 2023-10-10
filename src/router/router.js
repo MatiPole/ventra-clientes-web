@@ -4,6 +4,7 @@ import Login from "../pages/Login.vue";
 import Dashboard from "../pages/Dashboard.vue";
 import Profile from "../pages/Profile.vue";
 import Register from "../pages/Register.vue";
+import EditEvent from "../pages/EditEvent.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 import { subscribeToAuth } from "../services/auth";
 
@@ -14,16 +15,11 @@ const routes = [
   { path: "/registrarse", component: Register },
   { path: "/mi-cuenta/:id", component: Profile, meta: { requiresAuth: true } },
   { path: "/dashboard", component: Dashboard, meta: { requiresAuth: true } },
-  //   {
-  //     path: "/usuario/:id",
-  //     component: UserProfile,
-  //     meta: { requiresAuth: true },
-  //   },
-  //   {
-  //     path: "/usuario/:id/chat",
-  //     component: PrivateChat,
-  //     meta: { requiresAuth: true },
-  //   },
+  {
+    path: "/editevent/:id",
+    component: EditEvent,
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
@@ -42,6 +38,13 @@ router.beforeEach((to, from) => {
       path: "/iniciar-sesion",
     };
   }
+  router.beforeEach((to, from) => {
+    if (user.email !== "admin@gmail.com" && to.meta.requiresAuth) {
+      return {
+        path: "/",
+      };
+    }
+  });
 });
 
 export default router;

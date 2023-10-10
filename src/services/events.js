@@ -1,5 +1,15 @@
 import { db } from "./firebase";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 const refEvents = collection(db, "products");
 
@@ -17,8 +27,42 @@ export function subscribeToEvents(callback) {
         price: doc.data().price,
         description: doc.data().description,
         date: doc.data().date,
+        id: doc.id,
       };
     });
     callback(events);
   });
+}
+
+export async function createEvent({ name, description, price, date }) {
+  await addDoc(collection(db, "products"), {
+    name,
+    description,
+    price,
+    date,
+  });
+}
+
+export async function updateEvent({ id, name, description, price, date }) {
+  await setDoc(doc(db, "products", id), {
+    name: name,
+    price: price,
+    description: description,
+    date: date,
+  });
+}
+
+export async function deleteEvent(id) {
+  await deleteDoc(doc(db, "products", id));
+}
+
+export async function getEventById(id) {
+  const evRef = await getDoc(doc(db, `products/${id}`));
+  return {
+    id: evRef.id,
+    name: evRef.data().name,
+    price: evRef.data().price,
+    description: evRef.data().description,
+    date: evRef.data().date,
+  };
 }

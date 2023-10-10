@@ -11,18 +11,9 @@ export async function getUserProfileById(id) {
   return {
     id: docRef.id,
     email: docRef.data().email,
+    username: docRef.data().username,
+    role: docRef.data().rol,
   };
-}
-
-/**
- *
- * @param {string} id
- * @returns {Promise<{username: string}>}
- */
-
-export async function getUsernameById(id) {
-  const docRef = await getDoc(doc(db, `users/${id}`));
-  return docRef.data().username;
 }
 
 /**

@@ -1,16 +1,21 @@
 <script>
 import { logout, subscribeToAuth } from "./services/auth";
-import { getUsernameById } from "./services/user";
+import { getUserProfileById } from "./services/user";
 export default {
   name: "App",
 
   data() {
     return {
-      user: {
+      userAuth: {
         id: null,
         email: null,
       },
-      username: null,
+      userProfile: {
+        id: null,
+        email: null,
+        username: null,
+        role: null,
+      },
     };
   },
   computed: {},
@@ -24,9 +29,9 @@ export default {
   },
   async mounted() {
     subscribeToAuth((newUser) => {
-      this.user = newUser;
+      this.userAuth = newUser;
     });
-    this.username = await getUsernameById(this.user.id);
+    this.userProfile = await getUserProfileById(this.userAuth.id);
   },
 };
 </script>
@@ -88,28 +93,30 @@ export default {
                 >Eventos</router-link
               >
             </li>
-            <template v-if="user.id !== null">
+            <template v-if="userAuth.id !== null">
               <li>
                 <router-link
-                  :to="`/mi-cuenta/${user.id}/`"
+                  :to="`/mi-cuenta/${userAuth.id}/`"
                   class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   >Mi Cuenta</router-link
                 >
               </li>
-              <li>
-                <router-link
-                  to="/dashboard"
-                  class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                  >Panel Admin</router-link
-                >
-              </li>
+              <template v-if="userProfile.role === 'admin'">
+                <li>
+                  <router-link
+                    to="/dashboard"
+                    class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    >Panel Admin</router-link
+                  >
+                </li>
+              </template>
               <li>
                 <form @submit.prevent="handleLogout">
                   <button
                     class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                     type="submit"
                   >
-                    {{ username }} (Cerrar Sesión)
+                    {{ userProfile.username }} (Cerrar Sesión)
                   </button>
                 </form>
               </li>

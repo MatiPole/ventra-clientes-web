@@ -1,6 +1,6 @@
 <script>
 import BaseHeader from "../components/BaseHeader.vue";
-import { getUserProfileById, getUsernameById } from "../services/user";
+import { getUserProfileById } from "../services/user";
 
 export default {
   name: "Profile",
@@ -18,7 +18,6 @@ export default {
   async mounted() {
     this.loadingUser = true;
     this.user = await getUserProfileById(this.$route.params.id);
-    this.user.username = await getUsernameById(this.$route.params.id);
     this.loadingUser = false;
   },
 };
