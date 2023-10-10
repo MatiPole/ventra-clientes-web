@@ -11,6 +11,13 @@ export default {
 
 <template>
   <BaseHeader>Panel Administrador</BaseHeader>
+  <div class="flex justify-center">
+    <router-link
+      to="/chat-list"
+      class="ml-1 bg-green-500 text-white text-2xl p-2 rounded hover:bg-green-400"
+      >Chat</router-link
+    >
+  </div>
   <CreateEvent></CreateEvent>
   <AdminEventList></AdminEventList>
 </template>

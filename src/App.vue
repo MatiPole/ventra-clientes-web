@@ -28,10 +28,21 @@ export default {
     },
   },
   async mounted() {
-    subscribeToAuth((newUser) => {
+    subscribeToAuth(async (newUser) => {
       this.userAuth = newUser;
+
+      if (newUser.id !== null) {
+        this.userProfile = await getUserProfileById(newUser.id);
+      } else {
+        // Cuando no hay un usuario autenticado, vacía los datos del perfil
+        this.userProfile = {
+          id: null,
+          email: null,
+          username: null,
+          role: null,
+        };
+      }
     });
-    this.userProfile = await getUserProfileById(this.userAuth.id);
   },
 };
 </script>

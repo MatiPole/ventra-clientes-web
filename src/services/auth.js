@@ -4,6 +4,9 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  getAuth,
+  updateEmail,
+  updatePassword,
 } from "firebase/auth";
 import { createUserProfile } from "./user";
 
@@ -113,4 +116,28 @@ function notify(callback) {
  */
 function notifyAll() {
   observers.forEach((callback) => notify(callback));
+}
+
+//UPDATE PASSWORD
+
+export async function handleChangePassword(newPassword) {
+  try {
+    const user = auth.currentUser; // Obtener el usuario actualmente autenticado
+    await updatePassword(user, newPassword); // Actualizar la contraseña del usuario
+    console.log("Contraseña actualizada exitosamente.");
+  } catch (error) {
+    console.error("Error al actualizar la contraseña:", error);
+    throw error; // Propagar el error para manejarlo adecuadamente en el componente
+  }
+}
+
+export async function handleChangeEmail(newEmail) {
+  try {
+    const user = auth.currentUser; // Obtener el usuario actualmente autenticado
+    await updateEmail(user, newEmail); // Actualizar la contraseña del usuario
+    console.log("Email actualizado exitosamente.");
+  } catch (error) {
+    console.error("Error al actualizar el email", error);
+    throw error; // Propagar el error para manejarlo adecuadamente en el componente
+  }
 }
