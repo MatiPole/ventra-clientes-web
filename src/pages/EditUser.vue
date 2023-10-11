@@ -10,8 +10,8 @@ export default {
         id: null,
         username: null,
         email: null,
-        password: null,
-        password2: null,
+        // password: null,
+        // password2: null,
       },
       userAuth: {
         id: null,
@@ -25,7 +25,7 @@ export default {
         await updateUserProfile({
           ...this.user,
         });
-        await handleChangePassword(this.user.password);
+        // await handleChangePassword(this.user.password);
         await handleChangeEmail(this.user.email);
         this.$router.push(`/mi-cuenta/${this.user.id}`);
       } catch (error) {
@@ -49,15 +49,15 @@ export default {
     <input type="text" name="username" v-model="user.username" />
     <label for="email">Email</label>
     <input type="email" name="email" v-model="user.email" />
-    <label>Nueva Contraseña</label>
+    <!-- <label>Nueva Contraseña</label>
     <input type="password" name="password" v-model="user.password" />
     <label>Repetir Contraseña</label>
     <input type="password" name="password2" v-model="user.password2" />
-    <template v-if="user.password == user.password2">
-      <button type="submit">Guardar Cambios</button>
-    </template>
+    <template v-if="user.password == user.password2"> -->
+    <button type="submit">Guardar Cambios</button>
+    <!-- </template>
     <template v-else>
       <p class="text-red-600">La contraseña no coincide</p>
-    </template>
+    </template> -->
   </form>
 </template>

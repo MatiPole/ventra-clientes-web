@@ -28,6 +28,12 @@ export function createUserProfile(id, { username, email }) {
   });
 }
 
+/**
+ *
+ * @param {string} id
+ * @param {{email: string}} data
+ */
+
 export async function updateUserProfile({ id, username, email }) {
   await setDoc(doc(db, "users", id), {
     username: username,

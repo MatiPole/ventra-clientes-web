@@ -34,6 +34,11 @@ export function subscribeToEvents(callback) {
   });
 }
 
+/**
+ *
+ * @param {{name: string, description: string, price: number, date: number}} data
+ */
+
 export async function createEvent({ name, description, price, date }) {
   await addDoc(collection(db, "products"), {
     name,
@@ -42,6 +47,11 @@ export async function createEvent({ name, description, price, date }) {
     date,
   });
 }
+
+/**
+ * @param {{id: string}} id
+ * @param {{name: string, description: string, price: number, date: number}} data
+ */
 
 export async function updateEvent({ id, name, description, price, date }) {
   await setDoc(doc(db, "products", id), {
@@ -52,9 +62,19 @@ export async function updateEvent({ id, name, description, price, date }) {
   });
 }
 
+/**
+ * @param {{id: string}} id
+ */
+
 export async function deleteEvent(id) {
   await deleteDoc(doc(db, "products", id));
 }
+
+/**
+ *
+ * @param {string} id
+ * @returns {Promise<{id: string, name: string, price: number, description: string, date: number}>}
+ */
 
 export async function getEventById(id) {
   const evRef = await getDoc(doc(db, `products/${id}`));

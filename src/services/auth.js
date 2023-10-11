@@ -132,9 +132,10 @@ export async function handleChangePassword(newPassword) {
 }
 
 export async function handleChangeEmail(newEmail) {
+  console.log(newEmail);
   try {
     const user = auth.currentUser; // Obtener el usuario actualmente autenticado
-    await updateEmail(user, newEmail); // Actualizar la contraseña del usuario
+    await user.updateEmail(newEmail); // Actualizar el email del usuario
     console.log("Email actualizado exitosamente.");
   } catch (error) {
     console.error("Error al actualizar el email", error);
