@@ -11,9 +11,7 @@ export default {
 <template>
   <!-- <h1 class="mb-4 mb-8 text-3xl">Chat de Da Vinci</h1> -->
   <BaseHeader>Chat con usuarios</BaseHeader>
-  <div class="flex gap-4 justify-between">
-    <div class="div-contenedor">
-      <ChatList />
-    </div>
+  <div class="flex gap-4 justify-center">
+    <ChatList />
   </div>
 </template>

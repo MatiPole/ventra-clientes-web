@@ -166,14 +166,11 @@ async function getPrivateChatDoc(senderId, receiverId) {
 
 function setToCache(senderId, receiverId, value) {
   const key = senderId + receiverId;
-  // console.log('[private-chat.js setToCache] Added key ', key, ' with value: ', value);
   privateChatsCache[key] = value;
 }
 
 function getFromCache(senderId, receiverId) {
   const key = senderId + receiverId;
-  // console.log('[private-chat.js getFromCache] Searching for key ', key);
-  // console.log('[private-chat.js getFromCache] Value obtained: ', privateChatsCache[key]);
   return privateChatsCache[key] || null;
 }
 
@@ -183,7 +180,7 @@ export async function getPrivateChats() {
 
   const chats = querySnapshot.docs.map((doc) => {
     const data = doc.data();
-    const users = Object.keys(data.users); // Obtén los IDs de los usuarios
+    const users = Object.keys(data.users); // Obtiene los IDs de los usuarios
     return {
       id: doc.id,
       users, // Agrega los IDs de los usuarios a la conversación
