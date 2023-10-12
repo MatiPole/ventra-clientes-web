@@ -8,6 +8,7 @@ import EditEvent from "../pages/EditEvent.vue";
 import ChatAdminList from "../pages/ChatAdminList.vue";
 import ChatAdminPrivate from "../pages/ChatAdminPrivate.vue";
 import EditUser from "../pages/EditUser.vue";
+import EditPassword from "../pages/EditPassword.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 import { subscribeToAuth } from "../services/auth";
 import { getUserProfileById } from "../services/user";
@@ -45,6 +46,11 @@ const routes = [
   {
     path: "/mi-cuenta/editar-perfil/:id",
     component: EditUser,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/mi-cuenta/editar-password/:id",
+    component: EditPassword,
     meta: { requiresAuth: true },
   },
 ];

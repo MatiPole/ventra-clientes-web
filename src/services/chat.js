@@ -9,13 +9,14 @@ import {
 } from "firebase/firestore";
 import { dateToFormattedString } from "../helpers/datetime.js";
 
-const refChat = collection(db, "chat");
+const refChat = collection(db, "private-chats");
 
 /**
  *
  * @param {(messages: {}[]) => null} callback
  * @returns {import("firebase/auth").Unsubscribe}
  */
+
 export function subscribeToChatMessages(callback) {
   const q = query(refChat, orderBy("created_at"));
 

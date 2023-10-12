@@ -130,15 +130,3 @@ export async function handleChangePassword(newPassword) {
     throw error; // Propagar el error para manejarlo adecuadamente en el componente
   }
 }
-
-export async function handleChangeEmail(newEmail) {
-  console.log(newEmail);
-  try {
-    const user = auth.currentUser; // Obtener el usuario actualmente autenticado
-    await user.updateEmail(newEmail); // Actualizar el email del usuario
-    console.log("Email actualizado exitosamente.");
-  } catch (error) {
-    console.error("Error al actualizar el email", error);
-    throw error; // Propagar el error para manejarlo adecuadamente en el componente
-  }
-}

@@ -1,42 +1,48 @@
 <script>
-import { subscribeToChatMessages } from "../services/chat.js";
+import { getPrivateChats } from "../services/private-chat.js";
+import { getAdminUserId, getUserProfileById } from "../services/user.js";
+
 export default {
-  name: "ChatList",
   data() {
     return {
-      messages: [],
-      loadingMessages: true,
-      chatUnsubscribe: () => {},
+      chats: [],
+      loadingChats: true,
+      adminId: null,
     };
   },
-
-  mounted() {
-    this.loadingMessages = true;
-    this.chatUnsubscribe = subscribeToChatMessages((messages) => {
-      this.messages = messages;
-      this.loadingMessages = false;
-      // console.log("Los mensajes son: ", this.messages);
-    });
+  async created() {
+    this.loadingChats = true;
+    this.chats = await getPrivateChats();
+    this.loadingChats = false;
   },
-  unmounted() {
-    this.chatUnsubscribe();
+  methods: {
+    async fetchAdminUserId() {
+      this.adminId = await getAdminUserId();
+    },
+    clientId(chat) {
+      const otherUserId = chat.users.find((userId) => userId !== this.adminId);
+      return otherUserId;
+    },
+    getChatLink(chat) {
+      const otherUserId = chat.users.find((userId) => userId !== this.adminId);
+      return `/chat-list/${otherUserId}/chat`;
+    },
+  },
+  async mounted() {
+    await this.fetchAdminUserId();
   },
 };
 </script>
 
 <template>
-  <template v-if="!loadingMessages">
-    <div v-for="message in messages" class="mb-2">
-      <div>
-        <b>Usuario:</b>
-        <router-link
-          :to="`/chat-list/${message.userId}/chat`"
-          class="ml-1 text-blue-600 underline"
-          >{{ message.user }}</router-link
-        >
+  <div>
+    <h2>Mis Conversaciones</h2>
+    <template v-if="!loadingChats">
+      <div v-for="chat in chats" :key="chat.id" id="{{chat.id}}" class="mb-4">
+        <router-link :to="getChatLink(chat)">
+          Conversación con el usuario con id: {{ clientId(chat) }}
+        </router-link>
       </div>
-      <div><b>Mensaje:</b> {{ message.message }}</div>
-      <div>{{ message.created_at || "Enviando..." }}</div>
-    </div>
-  </template>
+    </template>
+  </div>
 </template>

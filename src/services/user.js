@@ -1,4 +1,13 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  query,
+  where,
+  collection,
+} from "firebase/firestore";
 import { db } from "./firebase";
 
 /**
@@ -12,7 +21,7 @@ export async function getUserProfileById(id) {
     id: docRef.id,
     email: docRef.data().email,
     username: docRef.data().username,
-    role: docRef.data().rol,
+    role: docRef.data().role,
   };
 }
 
@@ -21,10 +30,12 @@ export async function getUserProfileById(id) {
  * @param {string} id
  * @param {{email: string}} data
  */
+
 export function createUserProfile(id, { username, email }) {
   return setDoc(doc(db, `users/${id}`), {
     username,
     email,
+    role: "client",
   });
 }
 
@@ -35,8 +46,29 @@ export function createUserProfile(id, { username, email }) {
  */
 
 export async function updateUserProfile({ id, username, email }) {
-  await setDoc(doc(db, "users", id), {
+  await updateDoc(doc(db, "users", id), {
     username: username,
     email: email,
   });
+}
+
+export async function getAdminUserId() {
+  try {
+    // Paso 1: Obtén el ID del usuario con el rol "admin."
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("role", "==", "admin"));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      // No se encontraron usuarios con el rol "admin."
+      return null;
+    }
+
+    // Solo se espera un usuario con el rol "admin," por lo que obtenemos el primer documento.
+    const adminUser = querySnapshot.docs[0];
+    return adminUser.id;
+  } catch (error) {
+    console.error("Error al obtener el ID del usuario con rol admin:", error);
+    throw error;
+  }
 }

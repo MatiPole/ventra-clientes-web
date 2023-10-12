@@ -10,13 +10,12 @@ export default {
         id: null,
         username: null,
         email: null,
-        // password: null,
-        // password2: null,
       },
       userAuth: {
         id: null,
         email: null,
       },
+      authUnsubscribe: () => {},
     };
   },
   methods: {
@@ -25,9 +24,6 @@ export default {
         await updateUserProfile({
           ...this.user,
         });
-        // await handleChangePassword(this.user.password);
-        await handleChangeEmail(this.user.email);
-        this.$router.push(`/mi-cuenta/${this.user.id}`);
       } catch (error) {
         "hay un error", error;
       }
@@ -36,9 +32,12 @@ export default {
   async mounted() {
     this.user = await getUserProfileById(this.$route.params.id);
     this.user.id = this.$route.params.id;
-    subscribeToAuth(async (newUser) => {
-      this.userAuth = newUser;
-    });
+    this.authUnsubscribe = subscribeToAuth(
+      (newUser) => (this.userAuth = newUser)
+    );
+  },
+  unmounted() {
+    this.authUnsubscribe();
   },
 };
 </script>
@@ -47,17 +46,11 @@ export default {
   <form action="#" @submit.prevent="handleSubmit">
     <label for="username">Username</label>
     <input type="text" name="username" v-model="user.username" />
-    <label for="email">Email</label>
-    <input type="email" name="email" v-model="user.email" />
-    <!-- <label>Nueva Contraseña</label>
-    <input type="password" name="password" v-model="user.password" />
-    <label>Repetir Contraseña</label>
-    <input type="password" name="password2" v-model="user.password2" />
-    <template v-if="user.password == user.password2"> -->
     <button type="submit">Guardar Cambios</button>
-    <!-- </template>
-    <template v-else>
-      <p class="text-red-600">La contraseña no coincide</p>
-    </template> -->
   </form>
+  <router-link
+    :to="`/mi-cuenta/editar-password/${user.id}`"
+    class="ml-1 bg-green-500 text-white text-2xl py-2 px-4 rounded hover:bg-green-400"
+    >Cambiar Contraseña</router-link
+  >
 </template>

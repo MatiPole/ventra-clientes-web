@@ -1,6 +1,9 @@
 <script>
 import { getUserProfileById } from "../services/user";
-import { sendPrivateChatMessage } from "../services/private-chat";
+import {
+  sendPrivateChatMessage,
+  subscribeToPrivateChat,
+} from "../services/private-chat";
 import { subscribeToAuth } from "../services/auth";
 
 export default {
@@ -21,14 +24,17 @@ export default {
         message: "",
       },
       sendingMessage: false,
+      messages: [],
+      messagesUnsubscribe: () => {},
     };
   },
   methods: {
     handleSubmit() {
       sendPrivateChatMessage(this.authUser.id, this.user.id, {
-        email: this.authUser.email,
+        user: this.authUser.email,
         message: this.newMessage.message,
       });
+      this.newMessage.message = "";
     },
   },
   async mounted() {
@@ -36,6 +42,11 @@ export default {
     this.user = await getUserProfileById(this.$route.params.id);
     this.authUnsubscribe = subscribeToAuth(
       (userData) => (this.authUser = userData)
+    );
+    this.messagesUnsubscribe = await subscribeToPrivateChat(
+      this.authUser.id,
+      this.user.id,
+      (newMessages) => (this.messages = newMessages)
     );
     this.loadingUser = false;
   },
@@ -51,8 +62,25 @@ export default {
     <BaseHeader>Conversación privada con {{ user.email }}</BaseHeader>
 
     <h2 class="sr-only">Mensajes</h2>
-    <div class="min-h-[300px] p-4 border border-gray-300 rounded mb-2">
-      <!-- TODO -->
+    <div
+      class="flex flex-col items-start min-h-[300px] p-4 border border-gray-300 rounded mb-2"
+    >
+      <template v-if="!loadingMessages">
+        <div
+          v-for="message in messages"
+          class="max-w-[70%] p-2 rounded mb-2 bg-gray-100"
+          :class="{
+            'bg-green-400': message.senderId == authUser.id,
+            'self-end': message.senderId == authUser.id,
+          }"
+        >
+          <div>{{ message.message }}</div>
+          <div>{{ message.created_at || "Enviando..." }}</div>
+        </div>
+      </template>
+      <template v-else>
+        <BaseLoader />
+      </template>
     </div>
 
     <form class="flex gap-2" action="" @submit.prevent="handleSubmit">

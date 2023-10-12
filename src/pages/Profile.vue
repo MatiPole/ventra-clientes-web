@@ -1,6 +1,6 @@
 <script>
 import BaseHeader from "../components/BaseHeader.vue";
-import { getUserProfileById } from "../services/user";
+import { getUserProfileById, getAdminUserId } from "../services/user";
 
 export default {
   name: "Profile",
@@ -14,12 +14,19 @@ export default {
         role: null,
       },
       loadingUser: true,
+      adminId: null, // Propiedad para almacenar el ID del administrador
     };
+  },
+  methods: {
+    async fetchAdminUserId() {
+      this.adminId = await getAdminUserId();
+    },
   },
   async mounted() {
     this.loadingUser = true;
     this.user = await getUserProfileById(this.$route.params.id);
     this.loadingUser = false;
+    this.fetchAdminUserId(); // Llama a la función para obtener el ID del administrador
   },
 };
 </script>
@@ -37,7 +44,7 @@ export default {
   </div>
   <template v-if="user.role !== 'admin'">
     <router-link
-      to="/chat-list/eZzS2rEmIbSuv8Hx9euFJaTpGy02/chat"
+      :to="`/chat-list/${adminId}/chat`"
       class="ml-1 bg-green-500 text-white text-2xl py-2 px-4 rounded hover:bg-green-400"
       >Chatear con soporte</router-link
     >
