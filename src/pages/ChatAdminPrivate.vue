@@ -5,9 +5,13 @@ import {
   subscribeToPrivateChat,
 } from "../services/private-chat";
 import { subscribeToAuth } from "../services/auth";
+import BaseHeader from "../components/BaseHeader.vue";
+import BaseButton from "../components/BaseButton.vue";
+import BaseLoader from "../components/BaseLoader.vue";
 
 export default {
   name: "ChatAdminPrivate",
+  components: { BaseHeader, BaseButton, BaseLoader },
   data() {
     return {
       authUser: {
@@ -59,16 +63,16 @@ export default {
 <template>
   <BaseLoader v-if="loadingUser" />
   <template v-else>
-    <BaseHeader>Conversación privada con {{ user.email }}</BaseHeader>
+    <BaseHeader>Chat con Soporte</BaseHeader>
 
     <h2 class="sr-only">Mensajes</h2>
     <div
-      class="flex flex-col items-start min-h-[300px] p-4 border border-gray-300 rounded mb-2"
+      class="flex flex-col items-start bg-opacity min-h-[400px] p-4 rounded-3xl mx-12 my-4"
     >
       <template v-if="!loadingMessages">
         <div
           v-for="message in messages"
-          class="max-w-[70%] p-2 rounded mb-2 bg-gray-100"
+          class="max-w-[70%] p-4 rounded-3xl mb-2 bg-gray-100"
           :class="{
             'bg-green-400': message.senderId == authUser.id,
             'self-end': message.senderId == authUser.id,
@@ -83,14 +87,18 @@ export default {
       </template>
     </div>
 
-    <form class="flex gap-2" action="" @submit.prevent="handleSubmit">
+    <form
+      class="flex gap-2 sm:gap-4 w-full px-12 pb-8"
+      action=""
+      @submit.prevent="handleSubmit"
+    >
       <label for="message" class="sr-only">Mensaje</label>
       <textarea
-        class="w-11/12 p-2 border border-gray-400 rounded"
+        class="p-2 h-12 xl:h-16 rounded-3xl w-5/6 xl:w-11/12"
         id="message"
         v-model="newMessage.message"
       ></textarea>
-      <button type="submit" class="w-1/12">Enviar</button>
+      <BaseButton class="w-20 md:w-52">Enviar</BaseButton>
     </form>
   </template>
 </template>

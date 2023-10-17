@@ -9,6 +9,8 @@ export default {
 </script>
 
 <template>
-  <BaseHeader>Eventos</BaseHeader>
-  <EventList />
+  <section class="min-h-screen px-8">
+    <BaseHeader>Encontrá los mejores eventos del momento</BaseHeader>
+    <EventList />
+  </section>
 </template>

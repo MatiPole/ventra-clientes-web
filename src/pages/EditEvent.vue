@@ -1,8 +1,12 @@
 <script>
 import { updateEvent, getEventById } from "../services/events.js";
+import BaseButton from "../components/BaseButton.vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "EditEvent",
+  components: { BaseButton },
   data() {
     return {
       event: {
@@ -20,9 +24,13 @@ export default {
         await updateEvent({
           ...this.event,
         });
-        this.$router.push("/dashboard");
+        toast.success("¡Modificado con éxito!");
+        setTimeout(() => {
+          this.$router.push("/dashboard");
+        }, 5000);
       } catch (error) {
         "hay un error", error;
+        toast.error("Hubo un error al modificar el evento");
       }
     },
   },
@@ -34,15 +42,56 @@ export default {
 </script>
 
 <template>
-  <form action="#" @submit.prevent="handleSubmit">
-    <label for="name">Nombre del evento</label>
-    <input type="text" name="name" v-model="event.name" />
-    <label for="description">Descripción</label>
-    <input type="text" name="description" v-model="event.description" />
-    <label for="price">Precio</label>
-    <input type="number" name="price" v-model="event.price" />
-    <label for="date">Fech</label>
-    <input type="date" name="date" v-model="event.date" />
-    <button type="submit">Guardar Cambios</button>
-  </form>
+  <div class="bg-opacity text-light p-8 rounded-3xl mx-8 mt-20 mb-60">
+    <form
+      action="#"
+      @submit.prevent="handleSubmit"
+      class="flex flex-col lg:flex-row lg:items-center lg:justify-evenly"
+    >
+      <div>
+        <label for="name">Nombre del evento</label>
+        <input
+          type="text"
+          name="name"
+          v-model="event.name"
+          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+        />
+      </div>
+      <div>
+        <label for="description">Descripción</label>
+        <textarea
+          type="text"
+          name="description"
+          v-model="event.description"
+          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+        ></textarea>
+      </div>
+      <div>
+        <label for="price">Precio</label>
+        <input
+          type="number"
+          name="price"
+          v-model="event.price"
+          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+        />
+      </div>
+      <div>
+        <label for="date">Fecha del evento</label>
+        <input
+          type="date"
+          name="date"
+          v-model="event.date"
+          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+        />
+      </div>
+      <template
+        v-if="!event.name || !event.description || !event.price || !event.date"
+      >
+        <p class="text-red-600">Todos los campos son obligatorios</p>
+      </template>
+      <template v-else>
+        <BaseButton>Guardar</BaseButton>
+      </template>
+    </form>
+  </div>
 </template>

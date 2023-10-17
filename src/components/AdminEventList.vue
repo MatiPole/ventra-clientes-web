@@ -1,8 +1,12 @@
 <script>
 import { subscribeToEvents, deleteEvent } from "../services/events.js";
+import BaseButton from "./BaseButton.vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "AdminEventList",
+  components: { BaseButton },
   data() {
     return {
       events: [],
@@ -13,9 +17,10 @@ export default {
     async handleDelete(id) {
       try {
         await deleteEvent(id);
-        this.$router.push("/dashboard");
+        toast.success("¡Eliminado con éxito!");
       } catch (error) {
         "hay un error", error;
+        toast.error("No se pudo eliminar el evento");
       }
     },
   },
@@ -31,37 +36,30 @@ export default {
 </script>
 
 <template>
-  <div class="overflow-x-auto">
-    <table class="min-w-full">
+  <div class="bg-opacity text-light p-8 rounded-3xl m-8 overflow-x-auto">
+    <table class="w-full">
       <thead>
         <tr>
-          <th class="px-4 py-2">Nombre</th>
-          <th class="px-4 py-2">Precio</th>
-          <th class="px-4 py-2">Descripción</th>
-          <th class="px-4 py-2">Fecha</th>
-          <th class="px-4 py-2">Acciones</th>
+          <th class="border border-dark p-4">Nombre</th>
+          <th class="border border-dark p-4">Precio</th>
+          <th class="border border-dark p-4">Descripción</th>
+          <th class="border border-dark p-4">Fecha</th>
+          <th class="border border-dark p-4">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="event in events" :key="event.id">
-          <td class="border px-4 py-2">{{ event.name }}</td>
-          <td class="border px-4 py-2">${{ event.price }}</td>
-          <td class="border px-4 py-2">{{ event.description }}</td>
-          <td class="border px-4 py-2">{{ event.date }}</td>
-          <td class="border px-4 py-2">
-            <button
-              class="bg-blue-700 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
-            >
-              <router-link :to="`/EditEvent/${event.id}`"
-                >Editar Evento</router-link
-              >
-            </button>
-            <button
-              class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-500 focus:outline-none ml-2"
-              @click="handleDelete(event.id)"
-            >
-              Eliminar Evento
-            </button>
+          <td class="border border-dark p-4">{{ event.name }}</td>
+          <td class="border border-dark p-4">${{ event.price }}</td>
+          <td class="border border-dark p-4">{{ event.description }}</td>
+          <td class="border border-dark p-4">{{ event.date }}</td>
+          <td class="border border-dark p-4">
+            <BaseButton color="orange" class="mr-4 mb-2 lg:mb-0">
+              <router-link :to="`/EditEvent/${event.id}`">Editar</router-link>
+            </BaseButton>
+            <BaseButton color="green" @click="handleDelete(event.id)">
+              Eliminar
+            </BaseButton>
           </td>
         </tr>
       </tbody>

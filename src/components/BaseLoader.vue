@@ -5,7 +5,11 @@ export default {
 </script>
 
 <template>
-  <div class="lds-dual-ring">
+  <div class="lds-ellipsis">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
     <span class="sr-only">Cargando...</span>
   </div>
 </template>

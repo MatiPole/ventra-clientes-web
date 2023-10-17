@@ -72,3 +72,18 @@ export async function getAdminUserId() {
     throw error;
   }
 }
+
+export async function getAllUsers() {
+  const usersRef = collection(db, "users");
+  const querySnapshot = await getDocs(usersRef);
+
+  const allUsers = querySnapshot.docs.map((doc) => {
+    const user = doc.data();
+    return {
+      id: doc.id,
+      user,
+    };
+  });
+
+  return allUsers;
+}

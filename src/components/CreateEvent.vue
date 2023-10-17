@@ -1,27 +1,52 @@
 <script>
 import { createEvent } from "../services/events.js";
+import BaseButton from "./BaseButton.vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "CreateEvent",
+  components: { BaseButton },
   data() {
     return {
       form: {
         name: "",
         description: "",
-        price: 0,
+        price: null,
         date: "",
       },
+      errorAllRequired: "",
     };
   },
   methods: {
+    validation() {
+      if (
+        this.form.name == "" ||
+        this.form.description == "" ||
+        !this.form.price ||
+        this.form.date == ""
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     async handleSubmit() {
-      try {
-        await createEvent({
-          ...this.form,
-        });
-        this.$router.push("/dashboard");
-      } catch (error) {
-        "hay un error", error;
+      if (this.validation()) {
+        try {
+          await createEvent({
+            ...this.form,
+          });
+          toast.success("¡Creado con éxito!");
+          this.form.name = "";
+          this.form.description = "";
+          this.form.price = null;
+          this.form.date = "";
+        } catch (error) {
+          "hay un error", error;
+        }
+      } else {
+        this.errorAllRequired = "Todos los campos son requeridos";
       }
     },
   },
@@ -29,23 +54,53 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-center gap-8 p-8">
-    <h3>Crear Evento</h3>
-    <form action="#" @submit.prevent="handleSubmit">
-      <label for="name">Nombre</label>
-      <input type="text" name="name" id="name" v-model="form.name" />
-      <label for="description">Descripción</label>
-      <input
-        type="text"
-        name="description"
-        id="description"
-        v-model="form.description"
-      />
-      <label for="price">Precio</label>
-      <input type="number" name="price" id="price" v-model="form.price" />
-      <label for="date">Fecha del evento</label>
-      <input type="date" name="date" id="date" v-model="form.date" />
-      <button type="submit">Crear Evento</button>
+  <div class="bg-opacity text-light p-8 rounded-3xl m-8">
+    <form
+      action="#"
+      @submit.prevent="handleSubmit"
+      class="flex flex-col lg:flex-row lg:items-center lg:justify-evenly"
+    >
+      <div>
+        <label for="name">Nombre</label><br />
+        <input
+          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+          type="text"
+          name="name"
+          id="name"
+          v-model="form.name"
+        />
+      </div>
+      <div>
+        <label for="description">Descripción</label><br />
+        <textarea
+          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+          name="description"
+          id="description"
+          v-model="form.description"
+        ></textarea>
+      </div>
+      <div>
+        <label for="price">Precio</label><br />
+        <input
+          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+          type="number"
+          name="price"
+          id="price"
+          v-model="form.price"
+        />
+      </div>
+      <div>
+        <label for="date">Fecha del evento</label><br />
+        <input
+          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+          type="date"
+          name="date"
+          id="date"
+          v-model="form.date"
+        />
+      </div>
+      <BaseButton>Crear</BaseButton>
     </form>
+    <p class="text-red-600">{{ errorAllRequired }}</p>
   </div>
 </template>

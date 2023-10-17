@@ -1,6 +1,6 @@
 <script>
 import { getPrivateChats } from "../services/private-chat.js";
-import { getAdminUserId } from "../services/user.js";
+import { getAdminUserId, getAllUsers } from "../services/user.js";
 import BaseLoader from "../components/BaseLoader.vue";
 
 export default {
@@ -11,7 +11,7 @@ export default {
       chats: [],
       loadingChats: true,
       adminId: null,
-      user: [],
+      users: [],
     };
   },
   methods: {
@@ -20,7 +20,14 @@ export default {
     },
     clientId(chat) {
       const otherUserId = chat.users.find((userId) => userId !== this.adminId);
-      return otherUserId;
+      const user = this.users.find((userId) => userId.id === otherUserId);
+      if (user) {
+        // Si se encuentra un usuario con el ID, retorna su nombre de usuario
+        return user.user.email;
+      } else {
+        // Maneja el caso en el que no se encuentra el usuario
+        return "Usuario no encontrado";
+      }
     },
     getChatLink(chat) {
       const otherUserId = chat.users.find((userId) => userId !== this.adminId);
@@ -32,20 +39,23 @@ export default {
     this.loadingChats = true;
     this.chats = await getPrivateChats();
     this.loadingChats = false;
+    this.users = await getAllUsers();
   },
 };
 </script>
 
 <template>
-  <div>
-    <h2 class="text-3xl text-center">Mis Conversaciones</h2>
+  <div class="w-2/3">
     <template v-if="!loadingChats">
-      <div v-for="chat in chats" :key="chat.id" id="{{chat.id}}" class="mt-6">
-        <router-link
-          class="text-lg bg-emerald-500 text-white p-2 rounded-lg"
-          :to="getChatLink(chat)"
-        >
-          Conversación con el usuario con id: {{ clientId(chat) }}
+      <div
+        v-for="chat in chats"
+        :key="chat.id"
+        id="{{chat.id}}"
+        class="my-12 text-center bg-opacity rounded-full px-4 py-4 hover:bg-lightblue"
+      >
+        <router-link class="text-lg text-white" :to="getChatLink(chat)">
+          Conversación con el usuario: <br />
+          {{ clientId(chat) }}
         </router-link>
       </div>
     </template>

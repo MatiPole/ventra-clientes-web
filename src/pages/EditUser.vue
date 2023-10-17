@@ -1,9 +1,14 @@
 <script>
 import { updateUserProfile, getUserProfileById } from "../services/user.js";
-import { subscribeToAuth, handleChangePassword } from "../services/auth";
+import { subscribeToAuth } from "../services/auth";
+import BaseHeader from "../components/BaseHeader.vue";
+import BaseButton from "../components/BaseButton.vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "EditUser",
+  components: { BaseHeader, BaseButton },
   data() {
     return {
       user: {
@@ -24,7 +29,12 @@ export default {
         await updateUserProfile({
           ...this.user,
         });
+        toast.success("¡Perfil editado con éxito!");
+        setTimeout(() => {
+          this.$router.push(`/mi-cuenta/${this.user.id}`);
+        }, 5000);
       } catch (error) {
+        toast.error("Ocurrió un error al editar el perfil");
         "hay un error", error;
       }
     },
@@ -43,14 +53,24 @@ export default {
 </script>
 
 <template>
-  <form action="#" @submit.prevent="handleSubmit">
-    <label for="username">Username</label>
-    <input type="text" name="username" v-model="user.username" />
-    <button type="submit">Guardar Cambios</button>
-  </form>
-  <router-link
-    :to="`/mi-cuenta/editar-password/${user.id}`"
-    class="ml-1 bg-green-500 text-white text-2xl py-2 px-4 rounded hover:bg-green-400"
-    >Cambiar Contraseña</router-link
+  <BaseHeader>Editar perfil</BaseHeader>
+  <form
+    action="#"
+    @submit.prevent="handleSubmit"
+    class="text-light w-2/3 md:w-1/3 border-solid border-orange border-2 rounded-3xl p-8 mx-auto my-28"
   >
+    <label for="username">Nombre de usuario:</label><br />
+    <input
+      type="text"
+      name="username"
+      v-model="user.username"
+      class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-orange mb-8 w-full rounded-md"
+    />
+    <template v-if="!user.username">
+      <p class="text-red-600">El campo username no puede estar vacío</p>
+    </template>
+    <template v-else>
+      <BaseButton>Guardar Cambios</BaseButton>
+    </template>
+  </form>
 </template>

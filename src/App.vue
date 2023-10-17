@@ -48,15 +48,15 @@ export default {
 </script>
 
 <template>
-  <header>
-    <nav class="border-gray-200 bg-black">
+  <header class="max-h-fit">
+    <nav class="">
       <div
-        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+        class="w-full flex flex-wrap items-center justify-between mx-auto p-6"
       >
-        <router-link to="/" class="flex items-center">
+        <router-link to="/" class="flex items-center w-24">
           <img
             src="./assets/img/ventra-logo-final-para-negro.png"
-            class="h-8 mr-3"
+            class="mr-3 w-full"
             alt="Ventra Logo"
           />
           <span class="invisible">Ventra</span>
@@ -87,12 +87,12 @@ export default {
         </button>
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul
-            class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:border-gray-700"
+            class="flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0 md:border-0"
           >
             <li>
               <router-link
                 to="/"
-                class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white"
+                class="block py-2 pl-3 pr-4 text-light font-light hover:text-lightblue"
                 aria-current="page"
                 >Home</router-link
               >
@@ -100,7 +100,7 @@ export default {
             <li>
               <router-link
                 to="/eventos"
-                class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                class="block py-2 pl-3 pr-4 text-light font-light hover:text-lightblue"
                 >Eventos</router-link
               >
             </li>
@@ -108,7 +108,7 @@ export default {
               <li>
                 <router-link
                   :to="`/mi-cuenta/${userAuth.id}/`"
-                  class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  class="block py-2 pl-3 pr-4 text-light font-light hover:text-lightblue"
                   >Mi Cuenta</router-link
                 >
               </li>
@@ -116,7 +116,7 @@ export default {
                 <li>
                   <router-link
                     to="/dashboard"
-                    class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    class="block py-2 pl-3 pr-4 text-light font-light hover:text-lightblue"
                     >Panel Admin</router-link
                   >
                 </li>
@@ -124,7 +124,7 @@ export default {
               <li>
                 <form @submit.prevent="handleLogout">
                   <button
-                    class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    class="block py-2 pl-3 pr-4 text-light font-light hover:text-lightblue"
                     type="submit"
                   >
                     {{ userProfile.username }} (Cerrar Sesión)
@@ -136,14 +136,14 @@ export default {
               <li>
                 <router-link
                   to="/iniciar-sesion"
-                  class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  class="block py-2 pl-3 pr-4 text-light font-light hover:text-lightblue"
                   >Iniciar Sesión</router-link
                 >
               </li>
               <li>
                 <router-link
                   to="/registrarse"
-                  class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  class="block py-2 pl-3 pr-4 text-light font-light hover:text-lightblue"
                   >Registrarse</router-link
                 >
               </li>
@@ -153,10 +153,10 @@ export default {
       </div>
     </nav>
   </header>
-  <main class="">
+  <main>
     <router-view></router-view>
   </main>
-  <footer class="">
+  <footer class="bg-lightblue h-20 flex items-center justify-center">
     <p class="">Ventra &copy; 2023</p>
   </footer>
 </template>

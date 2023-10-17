@@ -1,10 +1,11 @@
 <script>
 import BaseHeader from "../components/BaseHeader.vue";
+import BaseButton from "../components/BaseButton.vue";
 import { getUserProfileById, getAdminUserId } from "../services/user";
 
 export default {
   name: "Profile",
-  components: { BaseHeader },
+  components: { BaseHeader, BaseButton },
   data() {
     return {
       user: {
@@ -33,20 +34,36 @@ export default {
 
 <template>
   <BaseHeader>Mi cuenta</BaseHeader>
-  <div class="flex flex-col items-center justify-center">
-    <h2>{{ user.username }}</h2>
-    <p>{{ user.email }}</p>
-    <router-link
-      :to="`/mi-cuenta/editar-perfil/${user.id}`"
-      class="ml-1 bg-green-500 text-white text-2xl py-2 px-4 rounded hover:bg-green-400"
-      >Editar Perfil</router-link
-    >
+  <div
+    class="text-light w-2/3 lg:w-2/6 bg-opacity rounded-3xl p-8 mx-auto my-16"
+  >
+    <div class="flex flex-col gap-4 text-center">
+      <p class="font-bold">Username:</p>
+      <h2>{{ user.username }}</h2>
+      <hr class="w-full border-dark" />
+      <p class="font-bold">Email:</p>
+      <p>{{ user.email }}</p>
+      <hr class="w-full border-dark" />
+      <router-link
+        class="self-center mt-2"
+        :to="`/mi-cuenta/editar-perfil/${user.id}`"
+      >
+        <BaseButton>Editar Perfil</BaseButton>
+      </router-link>
+      <router-link
+        class="self-center mt-2"
+        :to="`/mi-cuenta/editar-password/${user.id}`"
+      >
+        <BaseButton color="lightblue">Cambiar Contraseña</BaseButton>
+      </router-link>
+      <template v-if="user.role !== 'admin'">
+        <router-link
+          :to="`/chat-list/${adminId}/chat`"
+          class="self-center mt-2"
+        >
+          <BaseButton color="orange">Chatear con soporte</BaseButton>
+        </router-link>
+      </template>
+    </div>
   </div>
-  <template v-if="user.role !== 'admin'">
-    <router-link
-      :to="`/chat-list/${adminId}/chat`"
-      class="ml-1 bg-green-500 text-white text-2xl py-2 px-4 rounded hover:bg-green-400"
-      >Chatear con soporte</router-link
-    >
-  </template>
 </template>
