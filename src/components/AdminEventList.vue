@@ -12,7 +12,6 @@ export default {
       events: [],
       eventsUnsubscribe: () => [],
       showDeleteConfirmation: false,
-      eventToDelete: null,
     };
   },
   methods: {
@@ -30,11 +29,9 @@ export default {
     },
     confirmDelete(event) {
       this.showDeleteConfirmation = true;
-      this.eventToDelete = event;
     },
     cancelDelete() {
       this.showDeleteConfirmation = false;
-      this.eventToDelete = null;
     },
   },
   mounted() {

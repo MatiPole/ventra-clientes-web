@@ -1,0 +1,17 @@
+Carrera: Diseño y desarrollo web
+
+Materia: Clientes Web Mobile
+
+Cuatrimestre: 4to
+
+Año: 2023
+
+Turno: Noche
+
+Comisión: DWN4AP
+
+Apellido y Nombre: González Milagros - Poletto Matías
+
+Docente: Gallino Santiago
+
+Carácter de entrega: 1er parcial
