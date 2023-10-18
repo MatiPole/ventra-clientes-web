@@ -5,7 +5,6 @@ import App from "./src/App.vue";
 
 const app = createApp(App);
 
-// Agregamos el router a la app.
 app.use(router);
 
 app.mount("#app");

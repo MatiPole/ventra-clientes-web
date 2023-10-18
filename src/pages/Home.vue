@@ -1,10 +1,24 @@
 <script>
 import BaseHeader from "../components/BaseHeader.vue";
 import BaseButton from "../components/BaseButton.vue";
+import { subscribeToAuth } from "../services/auth";
 
 export default {
   name: "Home",
   components: { BaseHeader, BaseButton },
+  data() {
+    return {
+      userAuth: {
+        id: null,
+        email: null,
+      },
+    };
+  },
+  mounted() {
+    subscribeToAuth((newUser) => {
+      this.userAuth = newUser;
+    });
+  },
 };
 </script>
 
@@ -21,11 +35,15 @@ export default {
         de tus eventos favoritos
       </p>
       <div class="flex gap-2">
-        <router-link to="/iniciar-sesion" class="block py-2 pr-4 text-dark">
-          <BaseButton color="lightblue">Iniciar Sesión</BaseButton>
-        </router-link>
         <router-link to="/eventos" class="block py-2 pr-4 text-dark">
           <BaseButton color="orange">Ver Eventos</BaseButton>
+        </router-link>
+        <router-link
+          v-if="!userAuth.id"
+          to="/iniciar-sesion"
+          class="block py-2 pr-4 text-dark"
+        >
+          <BaseButton color="lightblue">Iniciar Sesión</BaseButton>
         </router-link>
       </div>
     </div>

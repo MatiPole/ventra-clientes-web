@@ -16,8 +16,8 @@ export default {
     this.loading = true;
     this.eventsUnsubscribe = subscribeToEvents((events) => {
       this.events = events;
+      this.loading = false;
     });
-    this.loading = false;
   },
   unmounted() {
     this.eventsUnsubscribe();
@@ -45,17 +45,13 @@ export default {
           <div>
             <p>{{ event.date }}</p>
           </div>
-          <div>
-            <p>{{ event.description }}</p>
-          </div>
-          <hr class="w-full border-dark" />
-          <div>
-            <p
-              class="bg-green rounded-full text-dark font-bold py-1 px-6 w-fit"
-            >
-              ${{ event.price }}
-            </p>
-          </div>
+          <p>{{ event.description }}</p>
+        </div>
+        <hr class="w-full border-dark mt-4" />
+        <div class="mt-4">
+          <p class="bg-green rounded-full text-dark font-bold py-1 px-6 w-fit">
+            ${{ event.price }}
+          </p>
         </div>
       </div>
     </div>

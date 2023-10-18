@@ -120,6 +120,12 @@ function notifyAll() {
 
 //UPDATE PASSWORD
 
+/**
+ *
+ * @param {password: string} user
+ * @returns {Promise}
+ */
+
 export async function handleChangePassword(newPassword) {
   try {
     const user = auth.currentUser; // Obtener el usuario actualmente autenticado

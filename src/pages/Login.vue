@@ -2,9 +2,10 @@
 import BaseHeader from "../components/BaseHeader.vue";
 import { login } from "../services/auth.js";
 import BaseButton from "../components/BaseButton.vue";
+import BaseInput from "../components/BaseInput.vue";
 export default {
   name: "Login",
-  components: { BaseHeader, BaseButton },
+  components: { BaseHeader, BaseButton, BaseInput },
   data() {
     return {
       form: {
@@ -31,7 +32,7 @@ export default {
             });
           })
           .catch((error) => {
-            error = this.errorCredentials = "Los datos no son correctos";
+            this.errorCredentials = "Los datos no son correctos";
           });
       } else {
         this.messageInvalidEmail = "Ingrese un email válido";
@@ -50,26 +51,16 @@ export default {
       @submit.prevent="handleLogin"
       novalidate
     >
-      <div class="mb-3">
+      <div class="mb-2">
         <label for="email">Email</label><br />
-        <input
-          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-orange mb-8 w-full rounded-md"
-          type="email"
-          id="email"
-          v-model="form.email"
-        />
+        <BaseInput type="email" id="email" v-model="form.email" />
         <p class="text-red-600">{{ messageInvalidEmail }}</p>
       </div>
-      <div class="mb-3">
+      <div>
         <label for="password">Contraseña</label><br />
-        <input
-          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-orange mb-8 w-full rounded-md"
-          type="password"
-          id="password"
-          v-model="form.password"
-        />
+        <BaseInput id="password" type="password" v-model="form.password" />
       </div>
-      <p class="text-red-600">{{ errorCredentials }}</p>
+      <p class="text-red-600 mb-4">{{ errorCredentials }}</p>
       <BaseButton color="orange" type="submit">Ingresar</BaseButton>
     </form>
   </section>

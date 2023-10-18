@@ -11,16 +11,18 @@ export default {
 </script>
 
 <template>
-  <BaseHeader>Panel Administrador</BaseHeader>
-  <h3 class="font-accent text-lightblue text-3xl font-semibold ml-16">
-    Crear Evento
-  </h3>
-  <CreateEvent></CreateEvent>
-  <h3 class="font-accent text-lightblue text-3xl font-semibold ml-16">
-    Mis Eventos
-  </h3>
-  <AdminEventList></AdminEventList>
-  <BaseButton class="block mx-auto my-8">
-    <router-link to="/chat-list">Chats de Soporte</router-link>
-  </BaseButton>
+  <section>
+    <BaseHeader>Panel Administrador</BaseHeader>
+    <BaseButton color="orange" class="block mx-auto my-8">
+      <router-link to="/chat-list">Chats de Soporte</router-link>
+    </BaseButton>
+    <h3 class="font-accent text-lightblue text-3xl font-semibold ml-16">
+      Crear Evento
+    </h3>
+    <CreateEvent></CreateEvent>
+    <h3 class="font-accent text-lightblue text-3xl font-semibold ml-16">
+      Mis Eventos
+    </h3>
+    <AdminEventList></AdminEventList>
+  </section>
 </template>

@@ -1,12 +1,13 @@
 <script>
 import { createEvent } from "../services/events.js";
 import BaseButton from "./BaseButton.vue";
+import BaseInput from "./BaseInput.vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 export default {
   name: "CreateEvent",
-  components: { BaseButton },
+  components: { BaseButton, BaseInput },
   data() {
     return {
       form: {
@@ -37,8 +38,9 @@ export default {
           await createEvent({
             ...this.form,
           });
-          toast.success("¡Creado con éxito!");
+          toast.success("¡Creado con éxito!", { autoClose: 2000 | true });
           this.form.name = "";
+
           this.form.description = "";
           this.form.price = null;
           this.form.date = "";
@@ -62,11 +64,12 @@ export default {
     >
       <div>
         <label for="name">Nombre</label><br />
-        <input
-          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+        <BaseInput
+          class="lg:w-auto"
           type="text"
           name="name"
           id="name"
+          color="lightblue"
           v-model="form.name"
         />
       </div>
@@ -81,21 +84,23 @@ export default {
       </div>
       <div>
         <label for="price">Precio</label><br />
-        <input
-          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+        <BaseInput
+          class="lg:w-auto"
           type="number"
           name="price"
           id="price"
+          color="lightblue"
           v-model="form.price"
         />
       </div>
       <div>
         <label for="date">Fecha del evento</label><br />
-        <input
-          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+        <BaseInput
+          class="lg:w-auto"
           type="date"
           name="date"
           id="date"
+          color="lightblue"
           v-model="form.date"
         />
       </div>

@@ -11,17 +11,30 @@ export default {
     return {
       events: [],
       eventsUnsubscribe: () => [],
+      showDeleteConfirmation: false,
+      eventToDelete: null,
     };
   },
   methods: {
     async handleDelete(id) {
       try {
         await deleteEvent(id);
-        toast.success("¡Eliminado con éxito!");
+        toast.success("¡Eliminado con éxito!", { autoClose: 2000 | true });
+        this.cancelDelete(); // Oculta el cuadro de diálogo después de eliminar
       } catch (error) {
         "hay un error", error;
-        toast.error("No se pudo eliminar el evento");
+        toast.error("No se pudo eliminar el evento", {
+          autoClose: 2000 | true,
+        });
       }
+    },
+    confirmDelete(event) {
+      this.showDeleteConfirmation = true;
+      this.eventToDelete = event;
+    },
+    cancelDelete() {
+      this.showDeleteConfirmation = false;
+      this.eventToDelete = null;
     },
   },
   mounted() {
@@ -34,7 +47,6 @@ export default {
   },
 };
 </script>
-
 <template>
   <div class="bg-opacity text-light p-8 rounded-3xl m-8 overflow-x-auto">
     <table class="w-full">
@@ -57,10 +69,22 @@ export default {
             <BaseButton color="orange" class="mr-4 mb-2 lg:mb-0">
               <router-link :to="`/EditEvent/${event.id}`">Editar</router-link>
             </BaseButton>
-            <BaseButton color="green" @click="handleDelete(event.id)">
+            <BaseButton color="green" @click="confirmDelete(event)">
               Eliminar
             </BaseButton>
           </td>
+          <div
+            v-if="showDeleteConfirmation"
+            class="bg-dark rounded-lg p-8 fixed bottom-1/2 right-1/3 m-4"
+          >
+            <p>¿Estás seguro de que deseas eliminar este evento?</p>
+            <BaseButton class="mt-4 mr-8" @click="handleDelete(event.id)"
+              >Sí</BaseButton
+            >
+            <BaseButton color="orange" @click="cancelDelete()"
+              >Cancelar</BaseButton
+            >
+          </div>
         </tr>
       </tbody>
     </table>

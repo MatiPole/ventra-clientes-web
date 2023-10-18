@@ -3,7 +3,6 @@ import { logout, subscribeToAuth } from "./services/auth";
 import { getUserProfileById } from "./services/user";
 export default {
   name: "App",
-
   data() {
     return {
       userAuth: {
@@ -18,7 +17,6 @@ export default {
       },
     };
   },
-  computed: {},
   methods: {
     handleLogout() {
       logout();
@@ -49,7 +47,7 @@ export default {
 
 <template>
   <header class="max-h-fit">
-    <nav class="">
+    <nav>
       <div
         class="w-full flex flex-wrap items-center justify-between mx-auto p-6"
       >
@@ -156,7 +154,19 @@ export default {
   <main>
     <router-view></router-view>
   </main>
-  <footer class="bg-lightblue h-20 flex items-center justify-center">
-    <p class="">Ventra &copy; 2023</p>
+  <footer
+    class="bg-lightblue sm:h-20 lg:h-40 flex xsm:flex-col sm:flex-row items-center justify-center gap-8 py-4"
+  >
+    <a href="https://www.instagram.com/ventra.ar/"
+      ><img
+        class="w-14"
+        src="src/assets/img/instagram-logo.png"
+        alt="logo de instagram"
+    /></a>
+    <p class="text-center font-semibold">
+      Eventos a tu medida, <br />
+      experiencias inolvidables.
+    </p>
+    <p class="text-lg font-light">Ventra &copy; 2023</p>
   </footer>
 </template>

@@ -52,6 +52,12 @@ export async function updateUserProfile({ id, username, email }) {
   });
 }
 
+/**
+ * Obtiene el ID del usuario con rol de administrador.
+ *
+ * @returns {Promise<string | null>} - El ID del usuario administrador o null si no se encuentra.
+ */
+
 export async function getAdminUserId() {
   try {
     // Paso 1: Obtén el ID del usuario con el rol "admin."
@@ -72,6 +78,11 @@ export async function getAdminUserId() {
     throw error;
   }
 }
+
+/**
+ *
+ * @returns {Promise<{id: string, users: {username: string, email: string, rol: string}}>}
+ */
 
 export async function getAllUsers() {
   const usersRef = collection(db, "users");

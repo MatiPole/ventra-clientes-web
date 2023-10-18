@@ -1,17 +1,10 @@
 <script>
-import BaseLoader from "./BaseLoader.vue";
-
 export default {
   name: "BaseButton",
-  components: { BaseLoader },
   props: {
     color: {
       type: String,
       default: "pink",
-    },
-    loading: {
-      type: Boolean,
-      default: false,
     },
   },
   computed: {

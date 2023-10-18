@@ -1,12 +1,13 @@
 <script>
 import { updateEvent, getEventById } from "../services/events.js";
 import BaseButton from "../components/BaseButton.vue";
+import BaseInput from "../components/BaseInput.vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 export default {
   name: "EditEvent",
-  components: { BaseButton },
+  components: { BaseButton, BaseInput },
   data() {
     return {
       event: {
@@ -24,10 +25,10 @@ export default {
         await updateEvent({
           ...this.event,
         });
-        toast.success("¡Modificado con éxito!");
+        toast.success("¡Modificado con éxito!", { autoClose: 2000 | true });
         setTimeout(() => {
           this.$router.push("/dashboard");
-        }, 5000);
+        }, 2000);
       } catch (error) {
         "hay un error", error;
         toast.error("Hubo un error al modificar el evento");
@@ -42,7 +43,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-opacity text-light p-8 rounded-3xl mx-8 mt-20 mb-60">
+  <section class="bg-opacity text-light p-8 rounded-3xl mx-8 mt-20 mb-60">
     <form
       action="#"
       @submit.prevent="handleSubmit"
@@ -50,11 +51,12 @@ export default {
     >
       <div>
         <label for="name">Nombre del evento</label>
-        <input
+        <BaseInput
           type="text"
           name="name"
           v-model="event.name"
-          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+          color="lightblue"
+          class="lg:w-auto"
         />
       </div>
       <div>
@@ -68,20 +70,22 @@ export default {
       </div>
       <div>
         <label for="price">Precio</label>
-        <input
+        <BaseInput
           type="number"
           name="price"
           v-model="event.price"
-          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+          color="lightblue"
+          class="lg:w-auto"
         />
       </div>
       <div>
         <label for="date">Fecha del evento</label>
-        <input
+        <BaseInput
           type="date"
           name="date"
           v-model="event.date"
-          class="bg-transparent border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-full lg:w-auto"
+          color="lightblue"
+          class="lg:w-auto"
         />
       </div>
       <template
@@ -93,5 +97,5 @@ export default {
         <BaseButton>Guardar</BaseButton>
       </template>
     </form>
-  </div>
+  </section>
 </template>

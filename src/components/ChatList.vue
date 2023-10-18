@@ -18,20 +18,20 @@ export default {
     async fetchAdminUserId() {
       this.adminId = await getAdminUserId();
     },
-    clientId(chat) {
-      const otherUserId = chat.users.find((userId) => userId !== this.adminId);
-      const user = this.users.find((userId) => userId.id === otherUserId);
+    clientData(chat) {
+      const clientId = chat.users.find((userId) => userId !== this.adminId);
+      const user = this.users.find((userId) => userId.id === clientId);
       if (user) {
         // Si se encuentra un usuario con el ID, retorna su nombre de usuario
         return user.user.email;
       } else {
         // Maneja el caso en el que no se encuentra el usuario
-        return "Usuario no encontrado";
+        return console.log("Usuario no encontrado");
       }
     },
     getChatLink(chat) {
-      const otherUserId = chat.users.find((userId) => userId !== this.adminId);
-      return `/chat-list/${otherUserId}/chat`;
+      const clientId = chat.users.find((userId) => userId !== this.adminId);
+      return `/chat-list/${clientId}/chat`;
     },
   },
   async mounted() {
@@ -55,12 +55,14 @@ export default {
       >
         <router-link class="text-lg text-white" :to="getChatLink(chat)">
           Conversación con el usuario: <br />
-          {{ clientId(chat) }}
+          {{ clientData(chat) }}
         </router-link>
       </div>
     </template>
     <template v-else>
-      <BaseLoader />
+      <div class="h-screen">
+        <BaseLoader />
+      </div>
     </template>
   </div>
 </template>
